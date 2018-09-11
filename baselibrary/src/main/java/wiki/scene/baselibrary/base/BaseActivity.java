@@ -73,7 +73,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
      *
      * @return true:可以 false:不响应
      */
-    private boolean checkCanClick() {
+    protected boolean checkCanClick() {
         long now = System.currentTimeMillis();
         if (now - lastClick >= 200) {
             lastClick = now;

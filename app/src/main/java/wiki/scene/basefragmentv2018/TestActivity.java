@@ -1,11 +1,8 @@
 package wiki.scene.basefragmentv2018;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
-
-import com.blankj.utilcode.util.ToastUtils;
 
 import wiki.scene.baselibrary.base.BaseActivity;
 
@@ -40,7 +37,9 @@ public class TestActivity extends BaseActivity<ITestView, TestPresenter> impleme
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               mPresenter.getData();
+                if (checkCanClick()) {
+                    mPresenter.getData();
+                }
             }
         });
     }
@@ -74,5 +73,11 @@ public class TestActivity extends BaseActivity<ITestView, TestPresenter> impleme
     @Override
     public void showToast(String message) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApp.getRefWatcher(this).watch(this);
     }
 }
