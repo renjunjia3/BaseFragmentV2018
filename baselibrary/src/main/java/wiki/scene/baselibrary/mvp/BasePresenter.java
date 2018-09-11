@@ -1,22 +1,32 @@
 package wiki.scene.baselibrary.mvp;
 
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.android.ActivityEvent;
+import java.lang.ref.WeakReference;
 
 /**
  * Des:Presenter基类
  * Author:scene
  * Date:2018/9/11 11:28
  */
-public class BasePresenter {
+public class BasePresenter<V> implements IPresenter<V> {
 
-    private LifecycleProvider<ActivityEvent> provider;
+    protected WeakReference<V> mMvpView;
 
-    public BasePresenter(LifecycleProvider<ActivityEvent> provider) {
-        this.provider = provider;
+    @Override
+    public void attachView(V mvpView) {
+        this.mMvpView = new WeakReference<>(mvpView);
     }
 
-    public LifecycleProvider<ActivityEvent> getProvider() {
-        return provider;
+
+    protected V getView() {
+        return mMvpView.get();
+    }
+
+
+    @Override
+    public void detachView() {
+        if (mMvpView != null) {
+            mMvpView.clear();
+            mMvpView = null;
+        }
     }
 }
