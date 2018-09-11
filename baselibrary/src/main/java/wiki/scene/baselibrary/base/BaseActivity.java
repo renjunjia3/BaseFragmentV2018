@@ -10,8 +10,9 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import wiki.scene.baselibrary.mvp.BasePresenter;
+import wiki.scene.baselibrary.mvp.IBaseView;
 
-public abstract class BaseActivity<V, P extends BasePresenter<V>> extends RxAppCompatActivity {
+public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends RxAppCompatActivity {
     public Activity mActivity;
     public P mPresenter;
     private Unbinder unbinder;

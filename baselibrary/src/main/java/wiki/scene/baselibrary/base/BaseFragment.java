@@ -13,13 +13,14 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import wiki.scene.baselibrary.mvp.BasePresenter;
+import wiki.scene.baselibrary.mvp.IBaseView;
 
 /**
  * Des:
  * Author:任俊家
  * Date:2018/9/11 11:47
  */
-public abstract class BaseFragment<V, P extends BasePresenter<V>> extends RxFragment {
+public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<V>> extends RxFragment {
     public Activity mActivity;
     protected View mRootView;
     protected P mPresenter;
@@ -45,7 +46,7 @@ public abstract class BaseFragment<V, P extends BasePresenter<V>> extends RxFrag
         init(view);
         initView();
         initData();
-        initEvent();
+        initListener();
     }
 
     private void init(View view) {
@@ -69,16 +70,21 @@ public abstract class BaseFragment<V, P extends BasePresenter<V>> extends RxFrag
     /**
      * 初始化事件
      */
-    protected void initEvent() {
+    protected void initListener() {
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
+        super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
         if (mPresenter != null) {
             mPresenter.detachView();
-        }
-        if (unbinder != null) {
-            unbinder.unbind();
         }
         super.onDestroy();
 
